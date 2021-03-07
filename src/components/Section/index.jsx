@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Toolbar from '@material-ui/core/Toolbar'
-import Table from '../Table'
+import TableFeature from '../../features/Table'
 import WorldStatusFeature from '../../features/WorldStatus'
 import CountryStatusFeature from '../../features/CountryStatus'
+
 const drawerWidth = 400
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerContainer: {
         overflow: 'auto',
-        padding: '0 15px'
+        padding: '0 15px',
     },
     content: {
         flexGrow: 1,
@@ -50,15 +51,13 @@ const Section = () => {
             >
                 <Toolbar />
                 <div className={classes.drawerContainer}>
-                    <div>
-                        <WorldStatusFeature />
-                    </div>
+                    <WorldStatusFeature />
                     <CountryStatusFeature />
                 </div>
             </Drawer>
             <main className={classes.content}>
                 <Toolbar />
-                <Table />
+                <TableFeature />
             </main>
         </div>
     )

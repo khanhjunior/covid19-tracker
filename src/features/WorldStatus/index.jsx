@@ -4,8 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import { Typography } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWorld } from '../../slice/WorldStatusSlice'
-import { useFormatNumber } from '../../hooks/useFormatNumber'
-
+import { formatNumber } from 'utils/formatNumber'
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -48,9 +47,9 @@ const WorldStatusFeature = () => {
 
     const worldStatus = useSelector((state) => state.all.list)
 
-    const worldCases = useFormatNumber(worldStatus.cases)
-    const worldRecovered = useFormatNumber(worldStatus.recovered)
-    const worldDeaths = useFormatNumber(worldStatus.deaths)
+    const worldCases = formatNumber(worldStatus.cases)
+    const worldRecovered = formatNumber(worldStatus.recovered)
+    const worldDeaths = formatNumber(worldStatus.deaths)
 
     return (
         <div

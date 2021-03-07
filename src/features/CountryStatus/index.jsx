@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import List from '@material-ui/core/List'
 import { makeStyles } from '@material-ui/core'
 import ListItem from '@material-ui/core/ListItem'
@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCountry } from '../../slice/CountrySlice'
 import { Paper } from '@material-ui/core'
+import SortCountry from 'components/SortCountry'
+import { formatNumber } from 'utils/formatNumber'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const CountryStatusFeature = () => {
+    const [sortBy, setSortBy] = useState('')
+
     const dispatch = useDispatch()
     const classes = useStyles()
 
@@ -27,10 +31,25 @@ const CountryStatusFeature = () => {
         dispatch(getCountry())
     }, [dispatch])
 
+    const handleChangeSort = (valueSort) => {
+        if (valueSort) {
+            setSortBy(valueSort)
+        }
+    }
+
     const countryStatus = useSelector((state) => state.countries.list)
 
-    const renderCountryStatus = countryStatus.map((country, index) => (
-        <Paper key={index} style={{ marginBottom: '10px' }} elevation={0}>
+    const sortCountryStatus = countryStatus.slice().sort((a, b) => {
+        return sortBy === 'byName' ? a.country - b.country : b.cases - a.cases
+    })
+
+    const renderCountryStatus = sortCountryStatus.map((country, index) => {
+        const countryCases = formatNumber(country.cases)
+        const countryRecovered = formatNumber(country.recovered)
+        const countryDeaths = formatNumber(country.deaths)
+
+        return (
+            <Paper key={index} style={{ marginBottom: '10px' }} elevation={0}>
             <ListItem button key={index}>
                 <ListItemIcon style={{ marginRight: '-20px' }}>
                     <img width="18" height="13" src={country.countryInfo.flag} alt={country.country} />
@@ -43,7 +62,7 @@ const CountryStatusFeature = () => {
                         }}
                         className={classes.paper}
                     >
-                        {country.cases}
+                        {countryCases}
                     </Paper>
                     <Paper
                         style={{
@@ -51,24 +70,30 @@ const CountryStatusFeature = () => {
                         }}
                         className={classes.paper}
                     >
-                        {country.recovered}
+                        {countryRecovered}
                     </Paper>
-                    {country.deaths !== 0 && (
+                    {countryDeaths !== 0 && (
                         <Paper
                             style={{
                                 backgroundColor: 'RGB(189, 189, 189)',
                             }}
                             className={classes.paper}
                         >
-                            {country.deaths}
+                            {countryDeaths}
                         </Paper>
                     )}
                 </div>
             </ListItem>
         </Paper>
-    ))
+        )
+    })
 
-    return <List>{renderCountryStatus}</List>
+    return (
+        <div>
+            <SortCountry onHandleSort={handleChangeSort} countryStatus={countryStatus} />
+            <List>{renderCountryStatus}</List>
+        </div>
+    )
 }
 
 export default CountryStatusFeature
