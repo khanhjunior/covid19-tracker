@@ -28,5 +28,6 @@ const CountrySlice = createSlice({
         },
     }
 })
+const { reducer } = CountrySlice
 
-export default CountrySlice.reducer
+export default reducer
