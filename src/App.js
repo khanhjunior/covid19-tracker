@@ -14,7 +14,6 @@ const App = () => {
         <React.Fragment>
             <Header
                 title="Diễn biến dịch COVID-19"
-                lastUpdate="Cập nhật lần cuối: 11:47 3/7/2021"
                 warningTooltip={warningTooltip}
             />
             <Section />

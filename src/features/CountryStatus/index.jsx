@@ -9,6 +9,7 @@ import { getCountry } from '../../slice/CountrySlice'
 import { Paper } from '@material-ui/core'
 import SortCountry from 'components/SortCountry'
 import { formatNumber } from 'utils/formatNumber'
+import Loading from 'components/Loading'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,6 +39,7 @@ const CountryStatusFeature = () => {
     }
 
     const countryStatus = useSelector((state) => state.countries.list)
+    const isCountry = useSelector((state) => state.countries.status)
 
     const sortCountryStatus = countryStatus.slice().sort((a, b) => {
         return sortBy === 'byName' ? a.country - b.country : b.cases - a.cases
@@ -50,48 +52,54 @@ const CountryStatusFeature = () => {
 
         return (
             <Paper key={index} style={{ marginBottom: '10px' }} elevation={0}>
-            <ListItem button key={index}>
-                <ListItemIcon style={{ marginRight: '-20px' }}>
-                    <img width="18" height="13" src={country.countryInfo.flag} alt={country.country} />
-                </ListItemIcon>
-                <ListItemText>{country.country}</ListItemText>
-                <div style={{ display: 'flex' }}>
-                    <Paper
-                        style={{
-                            backgroundColor: 'RGB(189, 33, 48)',
-                        }}
-                        className={classes.paper}
-                    >
-                        {countryCases}
-                    </Paper>
-                    <Paper
-                        style={{
-                            backgroundColor: 'RGB(164, 201, 57)',
-                        }}
-                        className={classes.paper}
-                    >
-                        {countryRecovered}
-                    </Paper>
-                    {countryDeaths !== 0 && (
+                <ListItem button key={index}>
+                    <ListItemIcon style={{ marginRight: '-20px' }}>
+                        <img width="18" height="13" src={country.countryInfo.flag} alt={country.country} />
+                    </ListItemIcon>
+                    <ListItemText>{country.country}</ListItemText>
+                    <div style={{ display: 'flex' }}>
                         <Paper
                             style={{
-                                backgroundColor: 'RGB(189, 189, 189)',
+                                backgroundColor: 'RGB(189, 33, 48)',
                             }}
                             className={classes.paper}
                         >
-                            {countryDeaths}
+                            {countryCases}
                         </Paper>
-                    )}
-                </div>
-            </ListItem>
-        </Paper>
+                        <Paper
+                            style={{
+                                backgroundColor: 'RGB(164, 201, 57)',
+                            }}
+                            className={classes.paper}
+                        >
+                            {countryRecovered}
+                        </Paper>
+                        {countryDeaths !== 0 && (
+                            <Paper
+                                style={{
+                                    backgroundColor: 'RGB(189, 189, 189)',
+                                }}
+                                className={classes.paper}
+                            >
+                                {countryDeaths}
+                            </Paper>
+                        )}
+                    </div>
+                </ListItem>
+            </Paper>
         )
     })
 
     return (
-        <div>
-            <SortCountry onHandleSort={handleChangeSort} countryStatus={countryStatus} />
-            <List>{renderCountryStatus}</List>
+        <div style={{ height: '100vh'}}>
+            {isCountry !== 'success' ? (
+                <Loading />
+            ) : (
+                <React.Fragment>
+                    <SortCountry onHandleSort={handleChangeSort} countryStatus={countryStatus} />
+                    <List>{renderCountryStatus}</List>
+                </React.Fragment>
+            )}
         </div>
     )
 }

@@ -60,17 +60,17 @@ const createData = (country, code, population, totalCases, totalRecovered, total
 
 const useStyles = makeStyles({
     root: {
-        width: '70%',
+        width: '100%',
     },
     container: {
-        maxHeight: 440,
+        maxHeight: 800,
     },
 })
 
 const TableFeature = () => {
     const classes = useStyles()
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = useState(10)
+    const [rowsPerPage, setRowsPerPage] = useState(25)
     const [valueFilter, setValueFilter] = useState('World')
 
     const handleChangePage = (event, newPage) => {
@@ -102,7 +102,7 @@ const TableFeature = () => {
     const handleFilterChangle = (valueFilter) => {
         setValueFilter(valueFilter)
         setPage(0)
-        setRowsPerPage(10)
+        setRowsPerPage(25)
     }
 
     return (
@@ -143,7 +143,7 @@ const TableFeature = () => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
+                    rowsPerPageOptions={[25, 50, 100]}
                     component="div"
                     count={renderCountryStatus.length}
                     rowsPerPage={rowsPerPage}
