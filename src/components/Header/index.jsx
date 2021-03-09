@@ -29,7 +29,7 @@ const appBarStyle = makeStyles((theme) => ({
     },
 }))
 
-const Header = ({ title, lastUpdate, warningTooltip }) => {
+const Header = ({ title, copy, warningTooltip }) => {
     const classes = appBarStyle()
     const [open, setOpen] = useState(false)
 
@@ -57,7 +57,7 @@ const Header = ({ title, lastUpdate, warningTooltip }) => {
                     <Typography variant="h1" className={classes.title}>
                         {title}
                     </Typography>
-                    <Typography variant="body2">{lastUpdate}</Typography>
+                    <Typography variant="body2">{copy}</Typography>
                     <Button onClick={handleClickOpen} color="inherit">
                         <ErrorIcon className={classes.notiButton} />
                     </Button>

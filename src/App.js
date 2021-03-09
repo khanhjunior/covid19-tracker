@@ -15,6 +15,7 @@ const App = () => {
             <Header
                 title="Diễn biến dịch COVID-19"
                 warningTooltip={warningTooltip}
+                copy="API by disease.sh"
             />
             <Section />
         </React.Fragment>
